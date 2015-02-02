@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'axlsx'
+gem 'axlsx', '~> 2.0.1'
 gemspec
 
 gem 'rake', '10.1.1'

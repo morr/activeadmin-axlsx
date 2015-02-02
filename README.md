@@ -95,6 +95,31 @@ ActiveAdmin.register Post do
 end
 ```
 
+##Change styles and types columns
+
+Read examples from axlsx (https://github.com/randym/axlsx/blob/master/examples/example.rb)
+
+```ruby
+#app/admin/posts.rb
+ActiveAdmin.register Post do
+  # Create own datetime format
+  date_time_format = config.xlsx_builder.add_style 'YYYY-MM-DD hh:mm:ss'
+
+  # Use for created_at
+  config.xlsx_builder.column(:created_at, style: date_time_format) do |resource|
+    resource.created_at
+  end
+
+  # Force string type for other columns
+  config.xlsx_builder.column(:updated_at, type: :string) do |resource|
+    resource.updated_at
+  end
+
+  # You can combine style and type attributes
+end
+```
+
+
 #Using the DSL
 
 Everything that you do with the config'd default builder can be done via

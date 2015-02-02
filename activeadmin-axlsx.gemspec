@@ -3,8 +3,8 @@ require File.expand_path('../lib/active_admin/axlsx/version', __FILE__)
 Gem::Specification.new do |s|
   s.name        = 'activeadmin-axlsx'
   s.version     = ActiveAdmin::Axlsx::VERSION
-  s.author	    = "Randy Morgan"
-  s.email       = 'digital.ipseity@gmail.com'
+  s.author	    = [ "Randy Morgan", "NetBrick" ]
+  s.email       = [ 'digital.ipseity@gmail.com', 'info@netbrick.eu' ]
   s.homepage   	= 'https://github.com/randym/activeadmin-axlsx'
   s.platform    = Gem::Platform::RUBY
   s.date        = Time.now.strftime('%Y-%m-%d')

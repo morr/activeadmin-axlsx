@@ -113,12 +113,18 @@ module ActiveAdmin
         @columns = []
       end
 
+      # Add style
+      def add_style(format_code)
+        sheet.styles.add_style format_code: format_code
+      end
+
       # Add a column
       # @param [Symbol] name The name of the column.
+      # @param [Hash] style block
       # @param [Proc] block A block of code that is executed on the resource
       #                     when generating row data for this column.
-      def column(name, &block)
-        @columns << Column.new(name, @resource_class, block)
+      def column(name, options = {}, &block)
+        @columns << Column.new(name, @resource_class, options, block)
       end
 
       # removes columns by name
@@ -142,13 +148,15 @@ module ActiveAdmin
 
       class Column
 
-        def initialize(name, resource_class = nil, block = nil)
+        def initialize(name, resource_class = nil, options = {}, block = nil)
           @name = name
           @resource_class = resource_class
+          @type = options[:type]
+          @style = options[:style]
           @data = block || @name
         end
 
-        attr_reader :name, :data
+        attr_reader :name, :data, :type, :style
 
         def localized_name(i18n_scope = nil)
           if i18n_scope
@@ -160,6 +168,7 @@ module ActiveAdmin
       end
 
       private
+
 
       def to_stream
         stream = package.to_stream.read
@@ -173,8 +182,10 @@ module ActiveAdmin
 
       def export_collection(collection)
         header_row(collection) unless @skip_header
+        types = columns.map(&:type)
+        styles = columns.map(&:style)
         collection.each do |resource|
-          sheet.add_row resource_data(resource)
+          sheet.add_row resource_data(resource), :types => types, :style => styles
         end
       end
 
@@ -202,7 +213,7 @@ module ActiveAdmin
       end
 
       def resource_data(resource)
-        columns.map  do |column|
+        columns.map do |column|
           call_method_or_proc_on resource, column.data if in_scope(resource, column)
         end
       end
