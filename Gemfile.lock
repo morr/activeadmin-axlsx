@@ -3,7 +3,7 @@ PATH
   specs:
     activeadmin-axlsx (3.0.0)
       activeadmin (~> 0.6.0)
-      axlsx
+      axlsx (~> 2.0.1)
 
 GEM
   remote: https://rubygems.org/
